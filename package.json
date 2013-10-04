@@ -1,12 +1,15 @@
 {
   "name": "dissect",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Poor man's Google Analytics",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dkolba/dissect.git"
+  },
   "keywords": [
     "Google",
     "Analytics",
