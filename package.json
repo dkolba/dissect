@@ -1,0 +1,28 @@
+{
+  "name": "dissect",
+  "version": "0.0.0",
+  "description": "Poor man's Google Analytics",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "Google",
+    "Analytics",
+    "Piwik",
+    "AWStats",
+    "Webalizer",
+    "web",
+    "analytics",
+    "statistics",
+    "traffic"
+  ],
+  "author": "Duncan Kolba",
+  "license": "BSD",
+  "dependencies": {
+    "redis": "~0.8.5",
+    "moment": "~2.2.1",
+    "cookies": "~0.3.6"
+  }
+}
