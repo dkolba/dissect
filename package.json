@@ -1,6 +1,6 @@
 {
   "name": "dissect",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Poor man's Google Analytics",
   "main": "app.js",
   "scripts": {
@@ -27,5 +27,6 @@
     "redis": "~0.8.5",
     "moment": "~2.2.1",
     "cookies": "~0.3.6"
-  }
+  },
+  "readmeFilename": "README.md"
 }

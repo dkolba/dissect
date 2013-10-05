@@ -9,10 +9,11 @@ month.
 
 Be sure to start this with the following environment variables:
 
-    redissecret="whathappensinvegasstaysinvegas"
-    redishost="example.com"
-    redisport="1337"
-    refererurl="http://www.example1.com"
+    REDISSECRET="whathappensinvegasstaysinvegas"
+    REDISPORT="1337"
+    HOST="example.com"
+    PORT=80
+    REFERERURL="http://www.example1.com"
 
 
 Put this in the page you want to track:
@@ -26,5 +27,5 @@ Put this in the page you want to track:
         pxl.height = 1;
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(pxl, s);
-        })();
+      })();
     </script>

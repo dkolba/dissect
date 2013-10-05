@@ -2,13 +2,13 @@ var http = require('http')
   , process_group = 'node'
   , process_user = 'node'
   , redis = require("redis")
-  , redisClient = redis.createClient(process.env.redisport, process.env.host)
+  , redisClient = redis.createClient(process.env.REDISPORT, process.env.HOST)
   , fs = require('fs')
   , moment = require('moment')
   , Cookies = require('cookies')
-  , refererurl = process.env.refererurl;
+  , refererurl = process.env.REFERERURL;
 
-// Uncomment the block below if you run this in production
+// This drops Root privileges, uncomment if you run this behind a proxy
 function dropRootPrivileges() {
   try {
     console.log('Giving up root privileges...');
@@ -18,16 +18,15 @@ function dropRootPrivileges() {
   }
   catch (err) {
     console.log('Failed to drop root privileges: ' + err);
-    // throw err;
+    throw err;
   }
 }
 
 // Connect to redis db
-redisClient.auth(process.env.redissecret);
+redisClient.auth(process.env.REDISSECRET);
 
 // Read the pixel gif from disk and cache in memory
 var thepixel = fs.readFileSync(__dirname + '/pixel.gif');
-
 
 // Helper function for calculating cookie expiration time
 function addMinutes(date, minutes) {
@@ -35,10 +34,10 @@ function addMinutes(date, minutes) {
 }
 
 function servePixel (req, res) {
-  var cookies = new Cookies(req, res);
-  var now = new Date();
-  var time = {};
-  var nowmoment = moment();
+  var cookies = new Cookies(req, res)
+    , now = new Date()
+    , time = {}
+    , nowmoment = moment();
   time.year = now.getUTCFullYear();
   time.month = now.getUTCMonth() + 1;
   time.day = now.getUTCDate();
@@ -61,14 +60,12 @@ function servePixel (req, res) {
     cookies.set("visited", now, {expires:addMinutes(now, 30)});
 
     // Write everything to Redis
-    redisMulti.exec();}
+    redisMulti.exec();
+  }
 
   // console.log(req.connection.remoteAddress);
   res.writeHead(200, {'Content-Type': 'image/gif' });
-  console.log(req.headers.referer);
   res.end(thepixel, 'binary');
 }
 
-http.createServer(servePixel
-).listen(process.env.PORT, dropRootPrivileges);
-// ).listen(8080);
+http.createServer(servePixel).listen(process.env.PORT, dropRootPrivileges);
