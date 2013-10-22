@@ -6,7 +6,8 @@ var http = require('http')
   , fs = require('fs')
   , moment = require('moment')
   , Cookies = require('cookies')
-  , refererurl = process.env.REFERERURL;
+  , refererurl = process.env.REFERERURL
+  , url = require('url');
 
 // This drops Root privileges, uncomment if you run this behind a proxy
 function dropRootPrivileges() {
@@ -23,7 +24,9 @@ function dropRootPrivileges() {
 }
 
 // Connect to redis db
-redisClient.auth(process.env.REDISSECRET);
+redisClient.auth(process.env.REDISSECRET, function(err) {
+    if(err){console.log(new Date() + err);}
+});
 
 // Read the pixel gif from disk and cache in memory
 var thepixel = fs.readFileSync(__dirname + '/pixel.gif');
@@ -44,7 +47,8 @@ function servePixel (req, res) {
   time.week = nowmoment.week();
 
   // Only count page impressions and visits if referer url is correct
-  if(req.headers.referer === refererurl) {
+  if(req.headers.referer &&
+     url.parse(req.headers.referer).host === refererurl) {
     redisMulti = redisClient.multi();
     redisMulti.incr('pis-by-day:' + time.year + '-' + time.month + '-' + time.day);
     redisMulti.incr('pis-by-week:' + time.year + '-kw' + time.week);
