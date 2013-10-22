@@ -13,7 +13,7 @@ Be sure to start this with the following environment variables:
     REDISPORT="1337"
     HOST="example.com"
     PORT=80
-    REFERERURL="http://www.example1.com"
+    REFERERURL="www.example1.com"
 
 
 Put this in the page you want to track:
