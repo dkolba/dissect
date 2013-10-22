@@ -6,26 +6,27 @@ var http = require('http')
   , fs = require('fs')
   , moment = require('moment')
   , Cookies = require('cookies')
-  , refererurl = process.env.REFERERURL
-  , url = require('url');
+  , url = require('url')
+  , refererurl = process.env.REFERERURL;
 
 // This drops Root privileges, uncomment if you run this behind a proxy
 function dropRootPrivileges() {
   try {
-    console.log('Giving up root privileges...');
+    console.log(new Date() + 'Giving up root privileges...');
     process.setgid(process_group);
     process.setuid(process_user);
-    console.log('New uid: ' + process.getuid());
+    console.log(new Date() + 'New uid: ' + process.getuid());
   }
   catch (err) {
-    console.log('Failed to drop root privileges: ' + err);
+    console.log(new Date() + 'Failed to drop root privileges: ' + err);
     throw err;
   }
 }
 
 // Connect to redis db
-redisClient.auth(process.env.REDISSECRET, function(err) {
-    if(err){console.log(new Date() + err);}
+redisClient.auth(process.env.REDISSECRET);
+redisClient.on("error", function (err) {
+ console.log(new Date() + "Redis error: " + err);
 });
 
 // Read the pixel gif from disk and cache in memory
@@ -45,7 +46,6 @@ function servePixel (req, res) {
   time.month = now.getUTCMonth() + 1;
   time.day = now.getUTCDate();
   time.week = nowmoment.week();
-
   // Only count page impressions and visits if referer url is correct
   if(req.headers.referer &&
      url.parse(req.headers.referer).host === refererurl) {
